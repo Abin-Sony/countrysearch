@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>country search</title>
+      <!-- boots -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+      <!-- fawesome -->
+  
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div style="height: 100vh; width: 100%; background-image: url(https://img.freepik.com/premium-photo/flags-world-from-different-countries-including-one-that-says-national_950347-19588.jpg?w=360);background-repeat: no-repeat; background-size: cover ; background-attachment: fixed; background-position: center; " class="d-flex justify-content-center align-items-center  b">
+       
+
+        <div class="container-fluid d-flex" style="flex: auto;justify-content: center;align-items:center;">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="p-5 d-flex  shadow border border-black" style="width: 600px;  background-image: url(https://img.freepik.com/premium-photo/flags-world-from-different-countries-including-one-that-says-national_950347-19588.jpg?w=360);" >
+
+                        <h1 class="text-white text-center text-bold  " style="background-color: rgba(0, 0, 0, 0.314);">Know About Countries</h1>
+                        <div class="align-items-center d-flex justify-content-center">
+                            
+                                <input id="countryName" class=" flex rounded " style="width: 190px;" type="text" name="query" placeholder="Type..." />
+                                <button type="button"  class=" btn btn-success rounded ms-2" onclick="search()">Search</button>
+                           
+                        
+                        </div>
+            
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 " id="result">
+                    
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+       
+
+    </div>
+</body>
+<script>
+    const search =  async()=>{
+        console.log(countryName.value);
+
+        const response = await fetch(`https://restcountries.com/v3.1/name/${countryName.value}?fullText=true`)
+
+        response.json().then((data)=>{
+            console.log(data[0]);
+
+            let common = data[0].name.common
+            console.log(common);
+
+
+             let official = data[0].name.official
+            console.log(official);
+
+            // curncy
+
+            for( var curr in data[0].currencies){
+                var currencyname = data[0].currencies[curr].name
+                var symbol = data[0].currencies[curr].symbol
+            }
+            console.log(currencyname,symbol);
+            
+
+
+
+
+
+            let capital = data[0].capital
+            console.log(capital);
+
+
+            let nationalLang = []
+            for(var lang in data[0].languages){
+                nationalLang.push(data[0].languages[lang])
+            }
+
+            console.log(nationalLang);
+            
+
+
+
+           
+
+
+
+            let borders = data[0].borders
+            console.log(borders);
+
+            let area = data[0].area
+            console.log(area);
+
+
+            let map = data[0].maps.googleMaps
+            console.log(map);
+
+
+            let population = data[0].population
+            console.log(population);
+
+            let timezone = data[0].timezones
+            console.log(timezone);
+
+            let continents = data[0].continents
+            console.log(continents);
+
+            let flags = data[0].flags.png
+            console.log(flags);
+
+            result.innerHTML=`<div class="card mb-3 p-3 d-flex" style="max-width:100%; d-flex:auto;justify-content: center;align-items:center;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img src=${flags}
+                         class="img-fluid rounded-start" alt="no">
+                            <h5 class="card-title text-center mt-4">${official}</h5>
+                            <ul class="list-group list-group-flush border">
+                               
+                                <li class="list-group-item"> Capital:${capital}</li>
+                               
+                              </ul>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                             
+                                <ul class="list-group list-group-flush border">
+                                     <li class="list-group-item">Common:${common}</li>
+                                    <li class="list-group-item">Continent:${continents}</li>
+                                    <li class="list-group-item">population:${population}</li>
+                                    <li class="list-group-item">area:${area}</li>
+                                    <li class="list-group-item">time zone:${timezone}</li>
+                                    <li class="list-group-item">borders:${borders}</li>
+                                    <li class="list-group-item">national languages:${nationalLang}</li>
+                                    <li class="list-group-item">currency:${currencyname}</li>
+                                    <li class="list-group-item">map:<a href="${map}" target"=_blank">${map}</li>
+                                    
+                                   
+                                  </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>`
+
+            
+
+           
+            
+        })
+        
+
+    }
+</script>
+</html>
